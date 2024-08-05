@@ -1,0 +1,125 @@
+#include <iostream>
+using namespace std;
+
+struct node {
+    int data;
+    node *ptr;
+};
+void display(node* start)
+{
+    node *temp=start;
+    while(temp!=nullptr)
+    {
+        cout<<temp->data;
+        temp=temp->ptr;
+    }
+    
+}
+
+int main() {
+    char ch;
+    node *start = nullptr, *current = nullptr;
+
+    do {
+        node *n = new node;
+        cin >> ch;
+        cin >> n->data;
+        n->ptr = nullptr;
+
+        if (start == nullptr) {
+            start = n;
+            current = n;
+        } else {
+            current->ptr = n;
+            current = n;
+        }
+    } while (ch == 'a');
+
+    display(start);
+    node *temp,*temp1;
+    int a;
+    /*cout<<"\nEnter the number to add in LL\n1.Beginning\n2.End\n3.Between"<<endl;
+    cin>>a;
+    if(a==2)
+    {
+        temp1=start;
+        temp=start;
+        while(temp1!=nullptr)
+        {
+           temp1=temp1->ptr;
+        }
+        node*input=new node;
+        cin>>input->data;
+        temp1->ptr=input;
+        input->ptr=NULL;
+        display(start);
+
+    }
+    if(a==1)
+    {
+        node *n=new node;
+        cin>>n->data;
+        n->ptr=start;
+        start=n;
+        display(start);
+
+    }
+    if(a==3)
+    {
+        temp=start;
+        temp1=start;
+        cout<<"Enter the position"<<endl;
+        cin>>a;
+        for(int i=1;i<a;i++)
+        {
+            temp=temp->ptr;
+        }
+        temp1=temp->ptr;
+        node*n=new node;
+        cin>>n->data;
+        temp->ptr=n;
+        n->ptr=temp1;
+        display(start);
+    }*/
+    cout<<"\nEnter the number to delete in LL\n1.Beginning\n2.End\n3.Between"<<endl;
+    cin>>a;
+    if(a==2)
+    {
+        temp1=start;
+        temp=start;
+        while(temp1!=nullptr)
+        {
+           temp1=temp1->ptr;
+        }
+        delete temp1->ptr;
+        temp1->ptr=NULL;
+        display(start);
+
+    }
+    if(a==1)
+    {
+        temp=start;
+        temp1=temp->ptr;
+        start=temp1;
+        delete temp;
+        display(start);
+
+    }
+    if(a==3)
+    {
+        temp=start;
+        temp1=start;
+        int x;
+        cout<<"Enter the position"<<endl;
+        cin>>x;
+        for(int i=1;i<x;i++)
+        {
+            temp=temp->ptr;
+        }
+        temp1=temp->ptr;
+        temp1=temp;
+        delete temp;
+        display(start);
+    }
+   
+}
