@@ -1,125 +1,206 @@
 #include <iostream>
 using namespace std;
 
-struct node {
-    int data;
-    node *ptr;
-};
-void display(node* start)
+struct node
 {
-    node *temp=start;
-    while(temp!=nullptr)
+    int data;
+    node *ptr=NULL;
+};
+
+void display_elements(node* start)
+{
+    node*temp=start;
+    while(temp!=NULL)
     {
         cout<<temp->data;
         temp=temp->ptr;
     }
-    
+    cout<<endl;
+
 }
 
-int main() {
-    char ch;
-    node *start = nullptr, *current = nullptr;
-
-    do {
-        node *n = new node;
-        cin >> ch;
-        cin >> n->data;
-        n->ptr = nullptr;
-
-        if (start == nullptr) {
-            start = n;
-            current = n;
-        } else {
-            current->ptr = n;
-            current = n;
-        }
-    } while (ch == 'a');
-
-    display(start);
-    node *temp,*temp1;
-    int a;
-    /*cout<<"\nEnter the number to add in LL\n1.Beginning\n2.End\n3.Between"<<endl;
-    cin>>a;
-    if(a==2)
+void add_element(node*start,int a)
+{
+    int x;
+    node *newe=new node;
+    cout<<"Enter the position"<<endl;
+    cin>>x;
+    if(x==1)
     {
-        temp1=start;
-        temp=start;
-        while(temp1!=nullptr)
-        {
-           temp1=temp1->ptr;
-        }
-        node*input=new node;
-        cin>>input->data;
-        temp1->ptr=input;
-        input->ptr=NULL;
-        display(start);
-
+        cout<<"Enter element to be added"<<endl;
+        cin>>newe->data;
+        node*temp=start;
+        start=newe;
+        newe->ptr=temp;
+        display_elements(start);
     }
-    if(a==1)
+    if(x==a)
+    {
+        node*temp=start;
+        while(temp->ptr!=NULL)
+        {
+            temp=temp->ptr;
+        }
+        cout<<"Enter element to be added"<<endl;
+        cin>>newe->data;
+        temp->ptr=newe;
+        newe->ptr=NULL;
+        display_elements(start);
+    }
+    if(x>1&&x<a)
+    {
+        node*temp=start;
+        node*temp1;
+        for(int i=0;i<x-2;i++)
+        {
+            temp=temp->ptr;
+        }
+        temp1=temp->ptr;
+        cout<<"Enter element to be added"<<endl;
+        cin>>newe->data;
+        temp->ptr=newe;
+        newe->ptr=temp1;
+        display_elements(start);
+    }
+}
+
+void delete_elements(node*start,int a)
+{
+    int x;
+    cout<<"Enter the position"<<endl;
+    cin>>x;
+    if(x==1)
+    {
+        node*temp=start;
+        start=temp->ptr;
+        delete temp;
+        display_elements(start);
+    }
+    if(x==a)
+    {
+        node*temp=start;
+        node*temp1;
+        while(temp->ptr->ptr!=NULL)
+        {
+            temp=temp->ptr;
+        }
+        temp1=temp->ptr;
+        temp->ptr=NULL;
+        delete temp1;
+        display_elements(start);
+    }
+    if(x>1&&x<a)
+    {
+        node*temp=start;
+        node*temp1;
+        for(int i=0;i<x-2;i++)
+        {
+            temp=temp->ptr;
+        }
+        temp1=temp->ptr;
+        temp->ptr=temp1->ptr;
+        delete temp1;
+        display_elements(start);
+    }
+}
+
+void display_sublist(node*start,int a)
+{
+    int x,y,z;
+    cout<<"Enter 3 consecutive elements"<<endl;
+    cin>>x>>y>>z;
+    node*temp=start;
+    for(int i=0;i<a;i++)
+    {
+        if(temp->data==x && temp->ptr->data==y && temp->ptr->ptr->data==z)
+        {
+            cout<<"The sublist exist at position :"<<i+1;
+            break;
+        }
+        else
+        {
+            temp=temp->ptr;
+        }
+    }
+
+}
+
+void reverse_ll(node*start)
+{
+    node*prev=NULL,*current=NULL,*next=NULL;
+    current=start;
+    while(current!=NULL)
+    {
+        next=current->ptr;
+        current->ptr=prev;
+        prev=current;
+        current=next;
+    }
+    start=prev;
+    display_elements(start);
+
+}
+
+void swap_pairs(node* start) {
+    int a, b, c, d;
+    cout << "Enter the consecutive element pairs to be swapped" << endl;
+    cin >> a >> b >> c >> d;
+
+    node *temp = start, *temp2 = nullptr, *temp3 = nullptr;
+
+    while (temp != nullptr) {
+        if (temp->data == a && temp->ptr != nullptr && temp->ptr->data == b) {
+            temp2 = temp; 
+            break;
+        }
+        temp = temp->ptr;
+    }
+
+    temp = start; 
+
+    while (temp != nullptr) {
+        if (temp->data == c && temp->ptr != nullptr && temp->ptr->data == d) {
+            temp3 = temp; 
+            break;
+        }
+        temp = temp->ptr;
+    }
+
+    if (temp2 != nullptr && temp3 != nullptr) {
+        swap(temp2->data, temp3->data); 
+        swap(temp2->ptr->data, temp3->ptr->data); 
+    } else {
+        cout << "One or both pairs not found in the list!" << endl;
+    }
+    display_elements(start);
+}
+
+int main()
+{
+    node*start=NULL,*current=NULL;
+    int x;
+    cout<<"Enter the number of elements"<<endl;
+    cin>>x;
+    for(int i=0;i<x;i++)
     {
         node *n=new node;
+        cout<<"Enter data "<<i+1<<endl;
         cin>>n->data;
-        n->ptr=start;
-        start=n;
-        display(start);
-
-    }
-    if(a==3)
-    {
-        temp=start;
-        temp1=start;
-        cout<<"Enter the position"<<endl;
-        cin>>a;
-        for(int i=1;i<a;i++)
+        if(start==NULL)
         {
-            temp=temp->ptr;
+            start=n;
+            current=n;
         }
-        temp1=temp->ptr;
-        node*n=new node;
-        cin>>n->data;
-        temp->ptr=n;
-        n->ptr=temp1;
-        display(start);
-    }*/
-    cout<<"\nEnter the number to delete in LL\n1.Beginning\n2.End\n3.Between"<<endl;
-    cin>>a;
-    if(a==2)
-    {
-        temp1=start;
-        temp=start;
-        while(temp1!=nullptr)
+        else
         {
-           temp1=temp1->ptr;
+            current->ptr=n;
+            current=n;
         }
-        delete temp1->ptr;
-        temp1->ptr=NULL;
-        display(start);
-
     }
-    if(a==1)
-    {
-        temp=start;
-        temp1=temp->ptr;
-        start=temp1;
-        delete temp;
-        display(start);
-
-    }
-    if(a==3)
-    {
-        temp=start;
-        temp1=start;
-        int x;
-        cout<<"Enter the position"<<endl;
-        cin>>x;
-        for(int i=1;i<x;i++)
-        {
-            temp=temp->ptr;
-        }
-        temp1=temp->ptr;
-        temp1=temp;
-        delete temp;
-        display(start);
-    }
-   
+    //display_elements(start);
+    //add_element(start,x);
+    //delete_elements(start,x);
+    //display_sublist(start,x);
+    //swap_pairs(start);
+    reverse_ll(start);
 }
