@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+void selection_sort(int arr[],int x,int a)
+{
+    if(a!=x)
+    {
+        int z=0;
+        int min=arr[a];
+        for(int i=a;i<x;i++)
+        {
+            if(min>=arr[i])
+            {
+                min=arr[i];
+                z=i;
+            }
+        }
+        swap(arr[a],arr[z]);
+        cout<<arr[a];
+        selection_sort(arr,x,a+1);
+    }
+
+}
+int main()
+{
+    int x=5,a=0;
+    int arr[x]={20,60,40,30,10};
+    selection_sort(arr,x,a);
+}
